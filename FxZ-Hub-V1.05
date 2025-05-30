@@ -1,20 +1,12 @@
---[[
-	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
-]]
-getgenv().destroyeconomy = true
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local SellPetEvent = ReplicatedStorage:WaitForChild("GameEvents"):WaitForChild("SellPet_RE")
-local LocalPlayer = Players.LocalPlayer
-
-while getgenv().destroyeconomy do
-    task.wait() 
-    
-    for _, plr in ipairs(Players:GetPlayers()) do
-        if plr ~= LocalPlayer and plr.Character then
-            local tool = plr.Character:FindFirstChildOfClass("Tool")
-            if tool and tool:GetAttribute("ItemType") == "Pet" then
-                SellPetEvent:FireServer(tool)
+while wait() do
+    for _, Player in pairs(game:GetService("Players"):GetChildren()) do
+        for Index, Child in pairs(Player.Character:GetChildren()) do
+            if string.find(string.lower(Child.Name), "age") then
+                coroutine.wrap(function() 
+                    for i = 1, 75 do
+                        game:GetService("ReplicatedStorage"):FindFirstChild("GameEvents"):FindFirstChild("SellPet_RE"):FireServer(Child)
+                    end              
+                end)()
             end
         end
     end
